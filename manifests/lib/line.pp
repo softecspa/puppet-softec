@@ -31,12 +31,12 @@ define softec::lib::line($file, $line, $ensure = 'present') {
         default : { err ( "unknown ensure value ${ensure}" ) }
         present: {
             exec { "/bin/echo '${line}' >> '${file}'":
-                unless => "/bin/grep -Fx '${line}' '${file}'"
+              unless => "/bin/grep -Fx '${line}' '${file}'"
             }
         }
         absent: {
-            exec { "/usr/bin/perl -ni -e 'print unless /^\\Q${line}\\E\$/' '${file}'":
-               onlyif => "/bin/egrep -qFx '${line}' '${file}'"
+            exec { "/bin/sed -i '/^${line}$/d' '$file'":
+              onlyif => "/bin/egrep -qx '${line}' '${file}'"
             }
         }
     }
