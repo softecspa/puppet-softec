@@ -24,7 +24,7 @@ EOS
     fqdn     = lookupvar('fqdn')
     ssl_base = '/var/lib/puppet/ssl'
     url = "#{puppetdb}/v3/#{endpoint} --data-urlencode 'query=#{query}' --cacert #{ssl_base}/certs/ca.pem --cert #{ssl_base}/certs/#{fqdn}.pem --key #{ssl_base}/private_keys/#{fqdn}.pem"
-    output = `curl -G #{url}`
+    output = `curl -G -k #{url}`
     return JSON.load output
   end
 end
