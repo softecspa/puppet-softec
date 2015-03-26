@@ -137,6 +137,11 @@ if (echo ${DEV} | egrep -q '/dev/cciss'); then
     DEV=$(sanitize ${DEV})
 fi
 
+# UUID
+if (echo ${DEV} | egrep -q '[a-z0-9]{8}-[az0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}'); then
+    DEV=$(blkid -U ${DEV##*/})
+fi
+
 [ $? -ne 0 ] && die "Cannot sanitize() root device"
 
 # se DEV non e' vuoto
